@@ -13,6 +13,10 @@ const service = () => {
   getKeybaseList().then(ids => {
     console.log(`fetching avatars for ${ids.length} ids`);
 
+    if(!ids || !Array.isArray(ids) || ids.length === 0) {
+      return;
+    }
+
     // download keybase avatars for the list of images
     fetchImages(ids).then((images) => {
       console.log(`${images.length} avatars fetched`);

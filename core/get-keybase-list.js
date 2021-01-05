@@ -4,7 +4,7 @@ const appUrl = "https://www.validators.app/api/v1/validators/";
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  Token: process.env.AWS_SECRET_ACCESS_KEY
+  Token: process.env.VALIDATORS_APP_TOKEN
 }
 
 const getValidators = (cluster) => {
@@ -13,6 +13,9 @@ const getValidators = (cluster) => {
     headers
   }).then(response => response.json())
   .then(data => {
+    if(!data || !Array.isArray(data)) {
+      return [];
+    }
     return data.map(v => {
       return v.keybase_id
     }).filter(a => !!a);
@@ -25,8 +28,6 @@ const getKeybaseList = () => {
     getValidators('mainnet'),
   ]
   return Promise.all(promises).then(data => {
-    console.log(data);
-
     // get a list of unique keybase ids
     const ids = new Set([
       ...data[0],
