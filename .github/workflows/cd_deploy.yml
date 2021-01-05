@@ -1,0 +1,37 @@
+name: CD Deployment
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: CD Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+            
+      - name: Install dependencies
+        run: npm i
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo AWS_ACCESS_KEY =${{ secrets.AWS_ACCESS_KEY }} >> .env
+          echo AWS_SECRET_ACCESS_KEY =${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo VALIDATORS_APP_TOKEN =${{ secrets.VALIDATORS_APP_TOKEN }} >> .env
+        
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}

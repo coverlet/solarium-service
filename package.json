@@ -1,0 +1,27 @@
+{
+  "name": "sol-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.821.0",
+    "dotenv": "^8.2.0",
+    "follow-redirects": "^1.13.1",
+    "image-downloader": "^4.0.2",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "spritesmith": "^3.4.0",
+    "uuid": "^8.3.2"
+  }
+}
