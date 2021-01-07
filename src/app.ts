@@ -9,7 +9,7 @@ const app: Application = express();
 // startService();
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Hello to a new World!');
 });
 
 app.listen(3333, () => {
