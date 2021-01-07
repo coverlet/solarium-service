@@ -1,21 +1,7 @@
-import fetch from 'node-fetch';
+import { getValidators } from "../validators/get-validators";
 
-const appUrl = 'https://www.validators.app/api/v1/validators/';
-const headers = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-  Token: process.env.VALIDATORS_APP_TOKEN,
-};
-console.log("1");
-console.log(process.env.VALIDATORS_APP_TOKEN);
-
-const getValidators = (cluster) => {
-  return fetch(appUrl + `${cluster}.json`, {
-    method: 'GET',
-    headers,
-  })
-    .then((response) => response.json())
-    .then((data) => {
+const getValidatorsIds = (cluster) => {
+  return getValidators(cluster).then((data) => {
       if (!data || !Array.isArray(data)) {
         return [];
       }
@@ -28,7 +14,7 @@ const getValidators = (cluster) => {
 };
 
 export const getKeybaseList = () => {
-  const promises = [getValidators('testnet'), getValidators('mainnet')];
+  const promises = [getValidatorsIds('testnet'), getValidatorsIds('mainnet')];
   return Promise.all(promises).then((data) => {
     // get a list of unique keybase ids
     const ids = new Set([...data[0], ...data[1]]);

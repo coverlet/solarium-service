@@ -1,5 +1,6 @@
 import fs from 'fs';
 import AWS from 'aws-sdk';
+import { cache } from '../utils/cache';
 
 AWS.config.update({ region: 'eu-central-1' });
 
@@ -31,6 +32,7 @@ export const s3Upload = (options) => {
       console.log(`image file uploaded at ${data.Location}`);
       s3.upload(jsonParams, function (s3Err, data) {
         if (s3Err) throw s3Err;
+        cache.set(`map`, options.json, 120);
         console.log(`json file uploaded`);
       });
     });

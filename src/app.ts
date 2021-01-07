@@ -1,17 +1,27 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Application, Request, Response } from 'express';
+import { getValidators } from './validators/get-validators';
+import { setupCrons } from './setup-crons';
+
+
+// setup crons
+setupCrons();
 
 const app: Application = express();
 
-// TODO send errors to influs, add stats for fetching
-// https://stackoverflow.com/questions/20207063/how-can-i-delete-folder-on-s3-with-node-js
-// startService();
-
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello to a new World!');
+  res.send('ok');
+});
+
+app.get('/validators/:cluster', (req: Request, res: Response) => {
+  // TODO proper error handling
+  getValidators(req.params.cluster).then((data) => {
+    res.json(data);
+  });
 });
 
 app.listen(3333, () => {
   console.log(`Server listening at http://localhost:3333`);
 });
+

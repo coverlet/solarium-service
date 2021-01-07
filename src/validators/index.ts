@@ -1,10 +1,7 @@
-import { fetchAppValidators } from '../client/validators-app';
-import { cache } from '../utils/cache';
+import { fetchAndCacheValidators } from './get-validators';
 
 export const updateValidators = (): void => {
-  fetchAppValidators('testnet').then(data => {
-    console.log(data);
-
-    // cache.set('testnet')
-  })
+  fetchAndCacheValidators('testnet').then(() => {
+    fetchAndCacheValidators('mainnet');
+  });
 };

@@ -7,11 +7,9 @@ import * as uuid from 'uuid';
 
 const outputImageLocation = './output/image.png';
 
-export const generateAvatarSprite = () => {
+export const updateAvatarSprite = () => {
   // get list of unique keybase ids for testnet and mainnet
   getKeybaseList().then((ids) => {
-    console.log(ids);
-    ids = ['maricalucian','andrei'];
     console.log(`fetching avatars for ${ids.length} ids`);
 
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -37,26 +35,26 @@ export const generateAvatarSprite = () => {
 
           const filename = uuid.v1() + '.png';
 
-          // const objectMap = {};
-          // ids.forEach((keybaseId) => {
-          //   if (result.coordinates[`./images/${keybaseId}.jpg`]) {
-          //     objectMap[keybaseId] = {
-          //       x: result.coordinates[`./images/${keybaseId}.jpg`].x,
-          //       y: result.coordinates[`./images/${keybaseId}.jpg`].y,
-          //     };
-          //   }
-          // });
+          const objectMap = {};
+          ids.forEach((keybaseId) => {
+            if (result.coordinates[`./images/${keybaseId}.jpg`]) {
+              objectMap[keybaseId] = {
+                x: result.coordinates[`./images/${keybaseId}.jpg`].x,
+                y: result.coordinates[`./images/${keybaseId}.jpg`].y,
+              };
+            }
+          });
 
-          // console.log(`uploading file ${filename} and new map`);
+          console.log(`uploading file ${filename} and new map`);
 
-          // s3Upload({
-          //   localFile: outputImageLocation,
-          //   filename,
-          //   json: {
-          //     filename,
-          //     map: objectMap,
-          //   },
-          // });
+          s3Upload({
+            localFile: outputImageLocation,
+            filename,
+            json: {
+              filename,
+              map: objectMap,
+            },
+          });
         }
       );
     });
