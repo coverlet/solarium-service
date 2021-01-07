@@ -15,3 +15,5 @@ images/*
 
 output/*
 !output/.gitkeep 
+
+dist
