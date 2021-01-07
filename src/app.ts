@@ -3,12 +3,15 @@ dotenv.config();
 import express, { Application, Request, Response } from 'express';
 import { getValidators } from './validators/get-validators';
 import { setupCrons } from './setup-crons';
+import cors from 'cors';
 
 
 // setup crons
 setupCrons();
 
 const app: Application = express();
+
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('ok');
