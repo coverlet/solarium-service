@@ -10,7 +10,8 @@ export const setupCrons = () => {
   });
 
   // setup avatar sprite refresh
-  cron.schedule('9 * * * *', () => {
+  // run daily at 01:09
+  cron.schedule('9 1 * * *', () => {
     console.log('**cron starting avatar update');
     updateAvatarSprite();
   });

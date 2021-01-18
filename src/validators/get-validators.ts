@@ -10,6 +10,8 @@ export const fetchAndCacheValidators = (cluster): Promise<IValidatorInfo[]> => {
     return getSpriteMap().then((data) => {
 
       validators.forEach((validator) => {
+        validator.active_stake = validator.active_stake ? (validator.active_stake + "") : "0";
+
         if (validator.keybase_id && data.map[validator.keybase_id]) {
           validator.pic = {
             file: data.filename,
